@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lab.library.user.controller.api.UserController;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,17 +34,15 @@ public class ApiServlet extends HttpServlet {
         public static final Pattern USER = Pattern.compile("/users/(%s)".formatted(UUID.pattern()));
 
         public static final Pattern USERS = Pattern.compile("/users/?");
+
+        public static final Pattern USER_AVATAR = Pattern.compile("/users/(%s)/avatar".formatted(UUID.pattern()));
     }
 
     private final Jsonb jsonb = JsonbBuilder.create();
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       /* if (request.getMethod().equals("PATCH")) {
-            doPatch(request, response);
-        } else {
-            super.service(request, response);
-        } */
+        super.service(request, response);
     }
 
     @Override
@@ -68,10 +67,48 @@ public class ApiServlet extends HttpServlet {
                 UUID uuid = extractUuid(Patterns.USER, path);
                 response.getWriter().write(jsonb.toJson(userController.getUser(uuid)));
                 return;
+            } else if (path.matches(Patterns.USER_AVATAR.pattern())) {
+                response.setContentType("image/png");
+                UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
+                byte[] avatar = userController.getUserAvatar(uuid);
+                response.setContentLength(avatar.length);
+                response.getOutputStream().write(avatar);
+                return;
             }
         }
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = parseRequestPath(request);
+        String servletPath = request.getServletPath();
+        if (Paths.API.equals(servletPath)) {
+            if (path.matches(Patterns.USER_AVATAR.pattern())) {
+                UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
+                userController.putUserAvatar(uuid, request.getPart("avatar").getInputStream());
+                return;
+            }
+        }
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+    }
+
+    @SuppressWarnings("RedundantThrows")
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = parseRequestPath(request);
+        String servletPath = request.getServletPath();
+        if (Paths.API.equals(servletPath)) {
+            if (path.matches(Patterns.USER_AVATAR.pattern())) {
+                UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
+                userController.deleteAvatar(uuid);
+                return;
+            }
+        }
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+    }
+
+
+
 
     private String parseRequestPath(HttpServletRequest request) {
         String path = request.getPathInfo();

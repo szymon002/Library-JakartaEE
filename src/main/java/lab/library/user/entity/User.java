@@ -27,4 +27,8 @@ public class User implements Serializable {
     private LocalDate birthDate;
 
     private List<Book> books;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private byte[] avatar;
 }

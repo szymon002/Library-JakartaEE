@@ -1,0 +1,35 @@
+# Get all users
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users
+
+###
+
+# Get user with ID
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a
+
+###
+
+#Get user avatar
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a/avatar
+
+###
+
+# Create and update user avatar
+
+PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a/avatar
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="user2.png'
+
+< src/main/resources/avatar/user2.png
+--boundary--
+
+###
+
+# Delete user's avatar
+
+DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a/avatar
+
