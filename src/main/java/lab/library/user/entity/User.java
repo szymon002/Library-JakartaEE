@@ -28,7 +28,5 @@ public class User implements Serializable {
 
     private List<Book> books;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private byte[] avatar;
+    private String avatar;
 }

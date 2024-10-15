@@ -1,5 +1,8 @@
 package lab.library.user.controller.impl;
 
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import lab.library.component.DtoFunctionFactory;
 import lab.library.user.controller.api.UserController;
 import lab.library.user.dto.GetUserResponse;
@@ -8,7 +11,11 @@ import lab.library.user.entity.User;
 import lab.library.user.service.UserService;
 import lab.library.controller.servlet.exception.NotFoundException;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.UUID;
 
 public class UserDefaultController implements UserController {
@@ -35,26 +42,55 @@ public class UserDefaultController implements UserController {
     }
 
     @Override
-    public byte[] getUserAvatar(UUID id) {
-        return service.find(id)
-                .map(User::getAvatar)
-                .orElseThrow(NotFoundException::new);
+    public void getUserAvatar(UUID id, HttpServletResponse response) throws IOException {
+        User user = service.find(id).orElseThrow(NotFoundException::new);
+
+        if (user.getAvatar() == null) {
+            throw new NotFoundException();
+        }
+
+        System.out.println(user.getAvatar());
+
+        Path photoPath = Path.of(user.getAvatar());
+
+        String filename = photoPath.getFileName().toString().toLowerCase();
+
+        if (filename.endsWith(".png")) {
+            response.setContentType("image/png");
+        } else if (filename.endsWith(".jpg")) {
+            response.setContentType("image/jpeg");
+        } else {
+            response.setContentType("application/octet-stream");
+        }
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+
+        OutputStream out = response.getOutputStream();
+        Files.copy(photoPath, out);
+        out.close();
+
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
-    public void putUserAvatar(UUID id, InputStream avatar) {
-        service.find(id).ifPresentOrElse(
-                entity -> service.updateAvatar(id, avatar),
-                () -> {
-                    throw new NotFoundException();
-                }
-        );
+    public void putUserAvatar(UUID id, Part photoPart) throws IOException {
+        User user = service.find(id).orElseThrow(NotFoundException::new);
+        String fileName = photoPart.getSubmittedFileName();
+
+        InputStream is = photoPart.getInputStream();
+        service.updateAvatar(id, is, fileName);
+        is.close();
     }
 
     @Override
     public void deleteAvatar(UUID id) {
         service.find(id).ifPresentOrElse(
-                entity -> service.deleteAvatar(id),
+                user -> {
+                    if (user.getAvatar() == null) {
+                        throw new NotFoundException();
+                    }
+                    service.deleteAvatar(id);
+                },
                 () -> {
                     throw new NotFoundException();
                 }

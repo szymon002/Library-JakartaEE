@@ -15,4 +15,9 @@
     <listener>
         <listener-class>lab.library.configuration.listener.CreateControllers</listener-class>
     </listener>
+
+    <context-param>
+        <param-name>AVATAR_PATH</param-name>
+        <param-value>/Users/szymonmalecki/Downloads/Avatars/</param-value>
+    </context-param>
 </web-app>

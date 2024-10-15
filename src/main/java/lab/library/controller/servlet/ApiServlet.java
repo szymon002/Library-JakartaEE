@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import lab.library.user.controller.api.UserController;
 
 import java.io.IOException;
@@ -68,11 +69,8 @@ public class ApiServlet extends HttpServlet {
                 response.getWriter().write(jsonb.toJson(userController.getUser(uuid)));
                 return;
             } else if (path.matches(Patterns.USER_AVATAR.pattern())) {
-                response.setContentType("image/png");
                 UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
-                byte[] avatar = userController.getUserAvatar(uuid);
-                response.setContentLength(avatar.length);
-                response.getOutputStream().write(avatar);
+                userController.getUserAvatar(uuid, response);
                 return;
             }
         }
@@ -85,7 +83,8 @@ public class ApiServlet extends HttpServlet {
         if (Paths.API.equals(servletPath)) {
             if (path.matches(Patterns.USER_AVATAR.pattern())) {
                 UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
-                userController.putUserAvatar(uuid, request.getPart("avatar").getInputStream());
+                Part photopart = request.getPart("avatar");
+                userController.putUserAvatar(uuid, photopart);
                 return;
             }
         }

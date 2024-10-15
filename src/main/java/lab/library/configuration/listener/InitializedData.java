@@ -33,7 +33,6 @@ public class InitializedData implements ServletContextListener {
                 .lastName("Malecki")
                 .birthDate(LocalDate.of(2002, 2, 18))
                 .email("szymon.test@gmail.com")
-                .avatar(getResourceAsByteArray("/avatar/user1.png"))
                 .build();
 
         User user2 = User.builder()
@@ -43,7 +42,6 @@ public class InitializedData implements ServletContextListener {
                 .lastName("Kowalska")
                 .birthDate(LocalDate.of(1998, 5, 12))
                 .email("anna.test@gmail.com")
-                .avatar(getResourceAsByteArray("/avatar/user2.png"))
                 .build();
 
         User user3 = User.builder()
@@ -53,7 +51,6 @@ public class InitializedData implements ServletContextListener {
                 .lastName("Nowak")
                 .birthDate(LocalDate.of(1995, 11, 23))
                 .email("piotr.test@gmail.com")
-                .avatar(getResourceAsByteArray("/avatar/user3.png"))
                 .build();
 
         User user4 = User.builder()
@@ -63,7 +60,6 @@ public class InitializedData implements ServletContextListener {
                 .lastName("Zielińska")
                 .birthDate(LocalDate.of(2001, 7, 15))
                 .email("ewa.test@gmail.com")
-                .avatar(getResourceAsByteArray("/avatar/user4.png"))
                 .build();
 
         userService.create(user1);
@@ -75,7 +71,7 @@ public class InitializedData implements ServletContextListener {
 
     @SneakyThrows
     private byte[] getResourceAsByteArray(String name) {
-        Path path = Paths.get("/Users/szymonmalecki/Desktop/LABJAKARTA/Library-JakartaEE/src/main/resources" + name);
+        Path path = Paths.get("/home/student/Dokumenty/188587/Library-JakartaEE-main/src/main/resources/" + name);
         System.out.println(path);
         if (Files.exists(path)) {
             return Files.readAllBytes(path);

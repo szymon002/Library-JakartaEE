@@ -22,7 +22,7 @@ PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form-data; name="avatar"; filename="user2.png'
+Content-Disposition: form-data; name="avatar"; filename="user2.png"
 
 < src/main/resources/avatar/user2.png
 --boundary--

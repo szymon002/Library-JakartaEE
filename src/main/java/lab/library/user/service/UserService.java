@@ -5,6 +5,9 @@ import lab.library.user.repository.api.UserRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +16,11 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final Path path;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, Path path) {
         this.userRepository = userRepository;
+        this.path = path;
     }
 
     public Optional<User> find(UUID id) {
@@ -34,10 +39,12 @@ public class UserService {
         userRepository.create(user);
     }
 
-    public void updateAvatar(UUID id, InputStream avatar) {
+    public void updateAvatar(UUID id, InputStream avatar, String filename) {
         userRepository.find(id).ifPresent(user -> {
             try {
-                user.setAvatar(avatar.readAllBytes());
+                Path photoPath = path.resolve(filename);
+                Files.copy(avatar, photoPath, StandardCopyOption.REPLACE_EXISTING);
+                user.setAvatar(photoPath.toString());
                 userRepository.update(user);
             } catch (IOException ex) {
                 throw new IllegalStateException(ex);
