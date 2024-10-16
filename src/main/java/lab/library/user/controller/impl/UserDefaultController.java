@@ -1,5 +1,7 @@
 package lab.library.user.controller.impl;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
@@ -18,11 +20,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+@RequestScoped
 public class UserDefaultController implements UserController {
     private final UserService service;
 
     private final DtoFunctionFactory factory;
 
+    @Inject
     public UserDefaultController(UserService service, DtoFunctionFactory factory) {
         this.service = service;
         this.factory = factory;

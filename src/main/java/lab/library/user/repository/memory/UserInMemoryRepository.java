@@ -1,5 +1,7 @@
 package lab.library.user.repository.memory;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import lab.library.datastore.component.DataStore;
 import lab.library.user.entity.User;
 import lab.library.user.repository.api.UserRepository;
@@ -9,9 +11,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequestScoped
 public class UserInMemoryRepository implements UserRepository {
     private final DataStore datastore;
 
+    @Inject
     public UserInMemoryRepository(DataStore datastore) {
         this.datastore = datastore;
     }

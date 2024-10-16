@@ -22,9 +22,9 @@ PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form-data; name="avatar"; filename="user2.png"
+Content-Disposition: form-data; name="avatar"; filename="user1.png"
 
-< src/main/resources/avatar/user2.png
+< src/main/resources/avatar/user1.png
 --boundary--
 
 ###
@@ -33,3 +33,77 @@ Content-Disposition: form-data; name="avatar"; filename="user2.png"
 
 DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a/avatar
 
+###
+
+# Get all books
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books
+
+###
+
+# Get one book
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-48ed-af1e-9b36afdec6bf
+
+###
+
+# Put new book
+
+PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
+Content-Type: application/json
+
+{
+  "title": "testowa ksiazka",
+  "author": "testowy autor",
+  "state": "NEW",
+  "publisher": "f8e63c10-5aaf-4b0d-a918-852c43855b4e"
+}
+
+###
+
+# Get new book
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
+
+###
+
+# Patch book
+
+PATCH http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
+Content-Type: application/json
+
+{
+  "title": "zmieniona ksiazka",
+  "author": "zmieniony autor",
+  "state": "USED"
+}
+
+###
+
+# Get User's book
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/698ae485-51b2-4629-958f-ac0aa5679b32/books
+
+###
+
+# Get all publishers
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers
+
+###
+
+# Get publisher
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4e
+
+###
+
+# Get publisher's book
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4e/books
+
+# Delete book
+
+###
+
+DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf

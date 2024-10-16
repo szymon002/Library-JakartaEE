@@ -1,5 +1,6 @@
 package lab.library.book.entity;
 
+import lab.library.user.entity.User;
 import lombok.*;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
+@ToString(callSuper = true)
 @EqualsAndHashCode
 public class Book implements Serializable {
     private UUID id;
@@ -25,8 +26,10 @@ public class Book implements Serializable {
 
     private Publisher publisher;
 
-    enum State {
+    private User user;
+
+    public enum State {
         NEW,
-        Used
+        USED
     }
 }
