@@ -1,5 +1,7 @@
 package lab.library.serialization.component;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Dependent;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
@@ -12,6 +14,7 @@ import java.io.Serializable;
 
 
 @Log
+@Dependent
 public class CloningUtility {
 
     @SneakyThrows
