@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{publisherView.id}" required="true"/>
+        <f:viewAction action="#{publisherView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:outputStylesheet library="publisher" name="css/publisher_view.css"/>
+
+        <article>
+            <header><h2><h:outputText value="#{publisherView.publisher.name}"/></h2></header>
+            <div class="container">
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h3>Publisher Information</h3>
+                        <div class="row mb-2">
+                            <div class="col-6">Country:</div>
+                            <div class="col-6">
+                                <h:outputText value="#{publisherView.publisher.country}"/>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">Date of Creation:</div>
+                            <div class="col-6">
+                                <h:outputText value="#{publisherView.publisher.dateOfCreation}"/>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">Number of Workers:</div>
+                            <div class="col-6">
+                                <h:outputText value="#{publisherView.publisher.numOfWorkers}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <h:button styleClass="btn" outcome="/book/book_create_basic.xhtml"
+                          value="Create new Book"/>
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h3>Books Published</h3>
+                        <h:dataTable value="#{publisherView.books.books}" var="book"
+                                     styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
+                            <h:column>
+                                <f:facet name="header">Title</f:facet>
+                                <h:outputText value="#{book.title}" styleClass="book-title"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Author</f:facet>
+                                <h:outputText value="#{book.author}" styleClass="book-author"/>
+                            </h:column>
+
+                            <h:column>
+                                <h:link outcome="/book/book_view.xhtml" value="View">
+                                    <f:param name="id" value="#{book.id}"/>
+                                </h:link>
+                            </h:column>
+
+                            <h:column>
+                                <h:link outcome="/book/book_edit.xhtml" value="Edit">
+                                    <f:param name="id" value="#{book.id}"/>
+                                </h:link>
+                            </h:column>
+
+                            <h:column>
+                                <h:form>
+                                    <h:commandButton styleClass="btn" value="Delete"
+                                                     action="#{publisherView.deleteBook(book.id)}"/>
+                                </h:form>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </ui:define>
+
+</ui:composition>

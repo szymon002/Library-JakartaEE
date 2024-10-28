@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{bookView.id}" required="true"/>
+        <f:viewAction action="#{bookView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article>
+            <header><h2><h:outputText value="#{bookView.book.title}"/></h2></header>
+            <div class="container">
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h3>Book Information</h3>
+                        <div class="row mb-2">
+                            <div class="col-6">Author:</div>
+                            <div class="col-6">
+                                <h:outputText value="#{bookView.book.author}"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">Date of publication:</div>
+                            <div class="col-6">
+                                <h:outputText value="#{bookView.book.dateOfPublication}"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">State:</div>
+                            <div class="col-6">
+                                <h:outputText value="#{bookView.book.state}"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">Publisher:</div>
+                            <div class="col-6">
+                                <h:outputText value="#{bookView.book.publisher}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </ui:define>
+
+</ui:composition>

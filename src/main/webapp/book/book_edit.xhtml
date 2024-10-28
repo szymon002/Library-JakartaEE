@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{bookEdit.id}" required="true"/>
+        <f:viewAction action="#{bookEdit.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article>
+            <header><h2>Edit book</h2></header>
+            <h:form styleClass="container" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <div class="form-floating">
+                            <h:inputText id="title" value="#{bookEdit.book.title}" styleClass="form-control"/>
+                            <h:outputLabel for="title" value="Title:" styleClass="form-label"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <div class="form-floating">
+                            <h:inputText id="author" value="#{bookEdit.book.author}" styleClass="form-control"/>
+                            <h:outputLabel for="author" value="Author:" styleClass="form-label"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4 p-2">
+                        <div class="form-floating">
+                            <h:inputText id="state" value="#{bookEdit.book.state}" styleClass="form-control"/>
+                            <h:outputLabel for="state" value="State:" styleClass="form-label"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2 p-2 text-center">
+                        <h:commandButton styleClass="btn btn-primary" value="Update"
+                                         action="#{bookEdit.saveAction()}"/>
+                    </div>
+                    <div class="col-2 p-2 text-center">
+                        <h:commandButton styleClass="btn btn-secondary" type="reset" value="Reset"/>
+                    </div>
+                </div>
+            </h:form>
+        </article>
+    </ui:define>
+
+</ui:composition>
