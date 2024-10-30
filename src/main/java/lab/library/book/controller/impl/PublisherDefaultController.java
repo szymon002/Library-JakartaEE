@@ -2,6 +2,9 @@ package lab.library.book.controller.impl;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
 import lab.library.book.controller.api.PublisherController;
 import lab.library.book.dto.GetPublisherResponse;
 import lab.library.book.dto.GetPublishersResponse;
@@ -9,12 +12,11 @@ import lab.library.book.dto.PatchPublisherRequest;
 import lab.library.book.dto.PutPublisherRequest;
 import lab.library.book.service.PublisherService;
 import lab.library.component.DtoFunctionFactory;
-import lab.library.controller.servlet.exception.BadRequestException;
-import lab.library.controller.servlet.exception.NotFoundException;
 
 import java.util.UUID;
 
-@RequestScoped
+
+@Path("")
 public class PublisherDefaultController implements PublisherController {
 
     private final PublisherService service;

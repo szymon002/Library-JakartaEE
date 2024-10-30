@@ -1,40 +1,3 @@
-# Get all users
-
-GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users
-
-###
-
-# Get user with ID
-
-GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a
-
-###
-
-#Get user avatar
-
-GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a/avatar
-
-###
-
-# Create and update user avatar
-
-PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a/avatar
-Content-Type: multipart/form-data; boundary=boundary
-
---boundary
-Content-Disposition: form-data; name="avatar"; filename="user1.png"
-
-< src/main/resources/avatar/user1.png
---boundary--
-
-###
-
-# Delete user's avatar
-
-DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/3214f86a-d656-4021-ac1e-1d562b69034a/avatar
-
-###
-
 # Get all books
 
 GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books
@@ -49,14 +12,13 @@ GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-4
 
 # Put new book
 
-PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
+PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/3b0a33fe-2d05-462c-bce7-032c0a542231/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
 Content-Type: application/json
 
 {
   "title": "testowa ksiazka",
   "author": "testowy autor",
-  "state": "NEW",
-  "publisher": "f8e63c10-5aaf-4b0d-a918-852c43855b4e"
+  "state": "NEW"
 }
 
 ###
@@ -80,9 +42,15 @@ Content-Type: application/json
 
 ###
 
-# Get User's book
+# Delete Book
 
-GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/698ae485-51b2-4629-958f-ac0aa5679b32/books
+DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/9b377529-a869-41b2-bb05-58ebf3ea1756
+
+###
+
+# Get Publisher's book
+
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/3b0a33fe-2d05-462c-bce7-032c0a542231/books
 
 ###
 
@@ -94,16 +62,36 @@ GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers
 
 # Get publisher
 
-GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4e
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/3b0a33fe-2d05-462c-bce7-032c0a542231
 
 ###
 
-# Get publisher's book
+# Create publisher
 
-GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4e/books
+PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4c
+Content-Type: application/json
 
-# Delete book
+{
+  "name": "Nowy Publisher",
+  "country": "Polska",
+  "dateOfCreation": "2024-10-30",
+  "numOfWorkers": 3000
+}
 
 ###
 
-DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
+# Modify Publisher
+
+PATCH http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4c
+Content-Type: application/json
+
+{
+  "name": "testowy zmiana",
+  "numOfWorkers": 2500
+}
+
+###
+
+# Delete Publisher
+
+DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/3b0a33fe-2d05-462c-bce7-032c0a542231

@@ -2,6 +2,9 @@ package lab.library.book.controller.impl;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
 import lab.library.book.controller.api.BookController;
 import lab.library.book.dto.GetBookResponse;
 import lab.library.book.dto.GetBooksResponse;
@@ -9,13 +12,12 @@ import lab.library.book.dto.PatchBookRequest;
 import lab.library.book.dto.PutBookRequest;
 import lab.library.book.service.BookService;
 import lab.library.component.DtoFunctionFactory;
-import lab.library.controller.servlet.exception.BadRequestException;
-import lab.library.controller.servlet.exception.NotFoundException;
+;
 import lab.library.user.entity.User;
 
 import java.util.UUID;
 
-@RequestScoped
+@Path("")
 public class BookDefaultController implements BookController {
 
     private final BookService service;
@@ -42,6 +44,7 @@ public class BookDefaultController implements BookController {
 
     @Override
     public GetBooksResponse getPublisherBooks(UUID id) {
+        System.out.println("siema");
         return service.findAllByPublisher(id)
                 .map(factory.booksToResponse())
                 .orElseThrow(NotFoundException::new);
@@ -55,9 +58,10 @@ public class BookDefaultController implements BookController {
     }
 
     @Override
-    public void putBook(UUID id, PutBookRequest request) {
+    public void putBook(UUID publisherId, UUID bookId, PutBookRequest request) {
         try {
-            service.create(factory.requestToBook().apply(id, request));
+            request.setPublisher(publisherId);
+            service.create(factory.requestToBook().apply(bookId, request));
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
         }

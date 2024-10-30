@@ -5,13 +5,13 @@ import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import jakarta.ws.rs.NotFoundException;
 import lab.library.component.DtoFunctionFactory;
 import lab.library.user.controller.api.UserController;
 import lab.library.user.dto.GetUserResponse;
 import lab.library.user.dto.GetUsersResponse;
 import lab.library.user.entity.User;
 import lab.library.user.service.UserService;
-import lab.library.controller.servlet.exception.NotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;
