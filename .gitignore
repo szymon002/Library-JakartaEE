@@ -8,3 +8,6 @@ src/main/.DS_Store
 src/.DS_Store
 src/main/resources/.DS_Store
 /target
+Jakarta-Library.iml
+.idea/modules.xml
+.idea/discord.xml

@@ -1,6 +1,5 @@
 package lab.library.user.repository.api;
 
-import lab.library.datastore.component.DataStore;
 import lab.library.user.entity.User;
 import lab.library.repository.api.Repository;
 

@@ -2,11 +2,13 @@ package lab.library.book.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lab.library.book.entity.Book;
 import lab.library.book.entity.Publisher;
 import lab.library.book.repository.api.BookRepository;
 import lab.library.book.repository.api.PublisherRepository;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import java.util.UUID;
 
 @ApplicationScoped
 @NoArgsConstructor(force = true)
+@Log
 public class PublisherService {
     private final PublisherRepository publisherRepository;
     private final BookService bookService;
@@ -30,13 +33,15 @@ public class PublisherService {
     }
 
     public Optional<Publisher> find(UUID id) {
-        return publisherRepository.find(id);
+        Optional<Publisher> publisher = publisherRepository.find(id);
+        return publisher;
     }
 
     public List<Publisher> findAll() {
         return publisherRepository.findAll();
     }
 
+    @Transactional
     public void create(Publisher publisher) {
         publisherRepository.create(publisher);
     }
@@ -45,15 +50,9 @@ public class PublisherService {
         publisherRepository.update(publisher);
     }
 
+    @Transactional
     public void delete(UUID id) {
         Publisher publisher = publisherRepository.find(id).orElseThrow();
-
-        List<Book> books = bookRepository.findAllByPublisher(publisher);
-
-        for (Book book : books) {
-            bookService.delete(book.getId());
-        }
-
         publisherRepository.delete(publisher);
     }
 }

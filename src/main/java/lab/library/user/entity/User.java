@@ -1,5 +1,6 @@
 package lab.library.user.entity;
 
+import jakarta.persistence.*;
 import lab.library.book.entity.Book;
 import lombok.*;
 
@@ -15,7 +16,10 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @EqualsAndHashCode
+@Entity
+@Table(name = "users")
 public class User implements Serializable {
+    @Id
     private UUID id;
 
     private String login;
@@ -26,6 +30,7 @@ public class User implements Serializable {
 
     private LocalDate birthDate;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Book> books;
 
     private String avatar;

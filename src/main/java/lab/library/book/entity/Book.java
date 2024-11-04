@@ -1,5 +1,6 @@
 package lab.library.book.entity;
 
+import jakarta.persistence.*;
 import lab.library.user.entity.User;
 import lombok.*;
 
@@ -12,9 +13,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString(callSuper = true)
-@EqualsAndHashCode
+@ToString
+@Entity
+@Table(name = "books")
 public class Book implements Serializable {
+    @Id
     private UUID id;
 
     private String title;
@@ -22,10 +25,15 @@ public class Book implements Serializable {
 
     private LocalDate dateOfPublication;
 
+    @Enumerated(EnumType.ORDINAL)
     private State state;
 
+    @ManyToOne
+    @JoinColumn(name = "publisher")
     private Publisher publisher;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public enum State {

@@ -1,5 +1,6 @@
 package lab.library.book.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.*;
@@ -14,7 +15,10 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @EqualsAndHashCode
+@Entity
+@Table(name = "publishers")
 public class Publisher implements Serializable {
+    @Id
     private UUID id;
 
     private String name;
@@ -24,5 +28,6 @@ public class Publisher implements Serializable {
 
     private int numOfWorkers;
 
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.REMOVE)
     List<Book> books;
 }

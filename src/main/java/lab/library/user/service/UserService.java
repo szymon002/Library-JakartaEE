@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContext;
+import jakarta.transaction.Transactional;
 import lab.library.user.entity.User;
 import lab.library.user.repository.api.UserRepository;
 import lombok.NoArgsConstructor;
@@ -51,10 +52,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     public void create(User user) {
         userRepository.create(user);
     }
 
+    @Transactional
     public void updateAvatar(UUID id, InputStream avatar, String filename) {
         userRepository.find(id).ifPresent(user -> {
             try {
@@ -68,6 +71,7 @@ public class UserService {
         });
     }
 
+    @Transactional
     public void deleteAvatar(UUID id) {
         userRepository.find(id).ifPresent(user -> {
             user.setAvatar(null);

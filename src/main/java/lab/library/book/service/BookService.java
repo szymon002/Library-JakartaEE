@@ -2,6 +2,7 @@ package lab.library.book.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lab.library.book.entity.Book;
 import lab.library.book.entity.Publisher;
 import lab.library.book.repository.api.BookRepository;
@@ -50,14 +51,26 @@ public class BookService {
         return bookRepository.findAllByPublisher(publisher);
     }
 
+    @Transactional
     public void create(Book book) {
+        if (bookRepository.find(book.getId()).isPresent()) {
+            throw new IllegalArgumentException("Book already exists");
+        }
+
+        if (publisherRepository.find(book.getPublisher().getId()).isEmpty()) {
+            throw new IllegalArgumentException("Publisher doesn't exist");
+        }
         bookRepository.create(book);
+        publisherRepository.find(book.getPublisher().getId())
+                .ifPresent(publisher -> publisher.getBooks().add(book));
     }
 
+    @Transactional
     public void update(Book book) {
         bookRepository.update(book);
     }
 
+    @Transactional
     public void delete(UUID id) {
         bookRepository.delete(bookRepository.find(id).orElseThrow());
     }
