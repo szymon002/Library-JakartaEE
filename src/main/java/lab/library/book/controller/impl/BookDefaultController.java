@@ -1,5 +1,8 @@
 package lab.library.book.controller.impl;
 
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.TransactionalException;
@@ -15,6 +18,7 @@ import lab.library.book.service.BookService;
 import lab.library.component.DtoFunctionFactory;
 ;
 import lab.library.user.entity.User;
+import lab.library.user.entity.UserRoles;
 import lombok.extern.java.Log;
 
 import java.util.UUID;
@@ -22,16 +26,21 @@ import java.util.logging.Level;
 
 @Path("")
 @Log
+@RolesAllowed(UserRoles.USER)
 public class BookDefaultController implements BookController {
 
-    private final BookService service;
+    private BookService service;
 
     private final DtoFunctionFactory factory;
 
     @Inject
-    public BookDefaultController(BookService service, DtoFunctionFactory factory) {
-        this.service = service;
+    public BookDefaultController(DtoFunctionFactory factory) {
         this.factory = factory;
+    }
+
+    @EJB
+    public void setService(BookService bookService) {
+        this.service = bookService;
     }
 
     @Override
@@ -48,7 +57,6 @@ public class BookDefaultController implements BookController {
 
     @Override
     public GetBooksResponse getPublisherBooks(UUID id) {
-        System.out.println("siema");
         return service.findAllByPublisher(id)
                 .map(factory.booksToResponse())
                 .orElseThrow(NotFoundException::new);
@@ -66,7 +74,7 @@ public class BookDefaultController implements BookController {
         try {
             request.setPublisher(publisherId);
             service.create(factory.requestToBook().apply(bookId, request));
-        } catch (TransactionalException ex) {
+        } catch (EJBException ex) {
             if (ex.getCause() instanceof IllegalArgumentException) {
                 log.log(Level.WARNING, ex.getMessage(), ex);
                 throw new BadRequestException(ex);

@@ -1,15 +1,24 @@
 package lab.library.user.controller.impl;
 
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.annotation.security.PermitAll;
+import jakarta.ejb.EJB;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
-import jakarta.mail.MessagingException;
+import jakarta.security.enterprise.AuthenticationStatus;
+import jakarta.security.enterprise.SecurityContext;
+import jakarta.security.enterprise.credential.Credential;
+import jakarta.security.enterprise.credential.Password;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import lab.library.component.DtoFunctionFactory;
 import lab.library.user.controller.api.UserController;
 import lab.library.user.dto.GetUserResponse;
 import lab.library.user.dto.GetUsersResponse;
+import lab.library.user.dto.PutUserRequest;
 import lab.library.user.entity.User;
 import lab.library.user.service.UserService;
 
@@ -20,18 +29,35 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
-@RequestScoped
+import static jakarta.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
+
+
+@jakarta.ws.rs.Path("")
+@PermitAll
 public class UserDefaultController implements UserController {
-    private final UserService service;
+    private UserService service;
 
     private final DtoFunctionFactory factory;
 
     @Inject
-    public UserDefaultController(UserService service, DtoFunctionFactory factory) {
-        this.service = service;
+    public UserDefaultController(
+            DtoFunctionFactory factory) {
         this.factory = factory;
     }
 
+    @EJB
+    public void setService(UserService service) {
+        this.service = service;
+    }
+
+    @Override
+    public void putUser(UUID id, PutUserRequest request) {
+        try {
+            service.create(factory.requestToUser().apply(id, request));
+        } catch (IllegalArgumentException ex) {
+            throw new BadRequestException();
+        }
+    }
 
     @Override
     public GetUsersResponse getUsers() {

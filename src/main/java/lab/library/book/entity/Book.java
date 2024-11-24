@@ -32,7 +32,7 @@ public class Book implements Serializable {
     @JoinColumn(name = "publisher")
     private Publisher publisher;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 

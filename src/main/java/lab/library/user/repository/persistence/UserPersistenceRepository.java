@@ -1,7 +1,9 @@
 package lab.library.user.repository.persistence;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import lab.library.user.entity.User;
 import lab.library.user.repository.api.UserRepository;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class UserPersistenceRepository implements UserRepository {
 
     private EntityManager em;
@@ -51,5 +53,16 @@ public class UserPersistenceRepository implements UserRepository {
         return em.createQuery("SELECT u FROM User u WHERE u.birthDate = :birthDate", User.class)
                 .setParameter("birthDate", birthDate)
                 .getResultList();
+    }
+
+    @Override
+    public Optional<User> findByLogin(String login) {
+        try {
+            return Optional.of(em.createQuery("select u from User u where u.login = :login", User.class)
+                    .setParameter("login", login)
+                    .getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 }

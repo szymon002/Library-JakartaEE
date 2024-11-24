@@ -1,6 +1,7 @@
 package lab.library.book.controller.impl;
 
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
@@ -12,22 +13,29 @@ import lab.library.book.dto.PatchPublisherRequest;
 import lab.library.book.dto.PutPublisherRequest;
 import lab.library.book.service.PublisherService;
 import lab.library.component.DtoFunctionFactory;
+import lab.library.user.entity.UserRoles;
 
 import java.util.UUID;
 
 
 @Path("")
+@RolesAllowed(UserRoles.USER)
 public class PublisherDefaultController implements PublisherController {
 
-    private final PublisherService service;
+    private PublisherService service;
 
     private final DtoFunctionFactory factory;
 
     @Inject
-    public PublisherDefaultController(PublisherService service, DtoFunctionFactory factory) {
-        this.service = service;
+    public PublisherDefaultController(DtoFunctionFactory factory) {
         this.factory = factory;
     }
+
+    @EJB
+    public void setService(PublisherService service) {
+        this.service = service;
+    }
+
 
     @Override
     public GetPublisherResponse getPublisher(UUID id) {

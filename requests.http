@@ -1,19 +1,32 @@
-# Get all books
+# Get all books ADMIN
 
+// @no-cookie-jar
 GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+###
+
+# Get all books USER
+
+// @no-cookie-jar
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books
+Authorization: Basic dXNlcjE6dXNlcjE=
 
 ###
 
 # Get one book
 
+// @no-cookie-jar
 GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-48ed-af1e-9b36afdec6bf
 
 ###
 
-# Put new book
+# Put new book USER
 
+// @no-cookie-jar
 PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/3b0a33fe-2d05-462c-bce7-032c0a542231/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
 Content-Type: application/json
+Authorization: Basic dXNlcjE6dXNlcjE=
 
 {
   "title": "testowa ksiazka",
@@ -25,14 +38,17 @@ Content-Type: application/json
 
 # Get new book
 
+// @no-cookie-jar
 GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
 
 ###
 
-# Patch book
+# Patch book USER
 
-PATCH http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
+// @no-cookie-jar
+PATCH http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-48ed-af1e-9b36afdec6bf
 Content-Type: application/json
+Authorization: Basic dXNlcjE6dXNlcjE=
 
 {
   "title": "zmieniona ksiazka",
@@ -42,34 +58,89 @@ Content-Type: application/json
 
 ###
 
-# Delete Book
+# Patch book ADMIN
 
-DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/9b377529-a869-41b2-bb05-58ebf3ea1756
+// @no-cookie-jar
+PATCH http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-48ed-af1e-9b36afdec6bf
+Content-Type: application/json
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+{
+  "title": "zmieniona ksiazkaADMIN",
+  "author": "zmieniony autoADMINr",
+  "state": "USED"
+}
+
+###
+
+# Get updated user's book
+
+// @no-cookie-jar
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-48ed-af1e-9b36afdec6bf
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+###
+
+# Delete Book ADMIN
+
+// @no-cookie-jar
+DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-48ed-af1e-9b36afdec6bf
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+###
+
+# Delete Book USER
+
+// @no-cookie-jar
+DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/books/81fed01e-5b96-af1e-48ed-9b36afdec6bf
+Authorization: Basic dXNlcjE6dXNlcjE=
 
 ###
 
 # Get Publisher's book
 
+// @no-cookie-jar
 GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/3b0a33fe-2d05-462c-bce7-032c0a542231/books
 
 ###
 
-# Get all publishers
+# Get all publishers USER
 
+// @no-cookie-jar
 GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers
+Authorization: Basic dXNlcjE6dXNlcjE=
 
 ###
 
 # Get publisher
 
+// @no-cookie-jar
 GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/3b0a33fe-2d05-462c-bce7-032c0a542231
 
 ###
 
-# Create publisher
+# Create publisher USER
 
+// @no-cookie-jar
 PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4c
 Content-Type: application/json
+Authorization: Basic dXNlcjE6dXNlcjE=
+
+{
+  "name": "Nowy Publisher",
+  "country": "Polska",
+  "dateOfCreation": "2024-10-30",
+  "numOfWorkers": 3000
+}
+
+###
+
+# Create publisher ADMIN
+
+// @no-cookie-jar
+PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4c
+Content-Type: application/json
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
 
 {
   "name": "Nowy Publisher",
@@ -82,6 +153,7 @@ Content-Type: application/json
 
 # Modify Publisher
 
+// @no-cookie-jar
 PATCH http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/f8e63c10-5aaf-4b0d-a918-852c43855b4c
 Content-Type: application/json
 
@@ -94,4 +166,28 @@ Content-Type: application/json
 
 # Delete Publisher
 
+// @no-cookie-jar
 DELETE http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/publishers/3b0a33fe-2d05-462c-bce7-032c0a542231
+
+###
+
+# Create user
+
+// @no-cookie-jar
+PUT http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users/e04848d4-6c39-4190-bf86-b391aec28edb
+Content-Type: application/json
+
+{
+  "firstName": "Szymon",
+  "lastName": "Malecki",
+  "email": "szymon.malecki@gmail.com",
+  "login": "test",
+  "password": "test"
+}
+
+###
+
+# Get all Users
+
+// @no-cookie-jar
+GET http://localhost:9080/Jakarta-Library-1.0-SNAPSHOT/api/users

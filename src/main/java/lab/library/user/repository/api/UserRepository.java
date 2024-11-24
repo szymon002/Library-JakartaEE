@@ -11,4 +11,7 @@ import java.util.UUID;
 public interface UserRepository extends Repository<User, UUID> {
 
     List<User> findAllByBirthDate(LocalDate birthDate);
+
+    Optional<User> findByLogin(String login);
+
 }

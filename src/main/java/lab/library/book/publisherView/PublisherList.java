@@ -1,5 +1,6 @@
 package lab.library.book.publisherView;
 
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -10,7 +11,7 @@ import lab.library.component.ModelFunctionFactory;
 @RequestScoped
 @Named
 public class PublisherList {
-    private final PublisherService publisherService;
+    private PublisherService publisherService;
 
     private PublishersModel publishers;
 
@@ -18,11 +19,14 @@ public class PublisherList {
 
     @Inject
     public PublisherList(
-            PublisherService publisherService,
             ModelFunctionFactory factory
     ) {
-        this.publisherService = publisherService;
         this.factory = factory;
+    }
+
+    @EJB
+    public void setPublisherService(PublisherService publisherService) {
+        this.publisherService = publisherService;
     }
 
     public PublishersModel getPublishers() {

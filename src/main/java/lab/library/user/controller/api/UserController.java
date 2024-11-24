@@ -2,15 +2,28 @@ package lab.library.user.controller.api;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import lab.library.user.dto.GetUserResponse;
 import lab.library.user.dto.GetUsersResponse;
+import lab.library.user.dto.PutUserRequest;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.UUID;
 
+@Path("")
 public interface UserController {
+    @PUT
+    @Path("/users/{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    void putUser(
+            @PathParam("id") UUID id,
+            PutUserRequest request
+    );
 
+    @GET
+    @Path("/users")
+    @Produces(MediaType.APPLICATION_JSON)
     GetUsersResponse getUsers();
 
     GetUserResponse getUser(UUID id);

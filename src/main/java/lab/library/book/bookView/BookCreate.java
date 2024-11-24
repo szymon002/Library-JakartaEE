@@ -1,5 +1,6 @@
 package lab.library.book.bookView;
 
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.Conversation;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.inject.Inject;
@@ -25,8 +26,8 @@ import java.util.stream.Collectors;
 @Log
 @NoArgsConstructor(force = true)
 public class BookCreate implements Serializable {
-    private final BookService bookService;
-    private final PublisherService publisherService;
+    private BookService bookService;
+    private PublisherService publisherService;
     private final ModelFunctionFactory factory;
 
     @Getter
@@ -39,15 +40,21 @@ public class BookCreate implements Serializable {
 
     @Inject
     public BookCreate(
-            BookService bookService,
-            PublisherService publisherService,
             ModelFunctionFactory factory,
             Conversation conversation
     ) {
-        this.bookService = bookService;
-        this.publisherService = publisherService;
         this.factory = factory;
         this.conversation = conversation;
+    }
+
+    @EJB
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    @EJB
+    public void setPublisherService(PublisherService publisherService) {
+        this.publisherService = publisherService;
     }
 
     public void init() {

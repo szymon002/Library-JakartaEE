@@ -15,6 +15,7 @@ public class UpdateBookWithRequestFunction implements BiFunction<Book, PatchBook
                 .state(patchBookRequest.getState())
                 .dateOfPublication(book.getDateOfPublication())
                 .publisher(book.getPublisher())
+                .user(book.getUser())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package lab.library.book.bookView;
 
+import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @ViewScoped
 @Named
 public class BookView implements Serializable {
-    private final BookService bookService;
+    private BookService bookService;
 
     private final ModelFunctionFactory factory;
 
@@ -31,11 +32,15 @@ public class BookView implements Serializable {
     @Getter
     private BookModel book;
     @Inject
-    public BookView(BookService bookService,
+    public BookView(
                     ModelFunctionFactory factory
     ) {
-        this.bookService = bookService;
         this.factory = factory;
+    }
+
+    @EJB
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
     }
 
     public void init() throws IOException {

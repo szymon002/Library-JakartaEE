@@ -1,5 +1,6 @@
 package lab.library.book.repository.persistence;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class PublisherPersistenceRepository implements PublisherRepository {
     private EntityManager em;
 

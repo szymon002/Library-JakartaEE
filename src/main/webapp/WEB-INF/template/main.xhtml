@@ -27,6 +27,13 @@
                         <h:graphicImage name="images/logo.jpg" style="height: 75px" class="me-3"/>
                         <h1>Library</h1>
                     </div>
+                    <h:form styleClass="container d-flex  align-items-center justify-content-end"
+                            rendered="#{facesContext.externalContext.userPrincipal != null}">
+                        Logged: <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
+                        <h:commandButton styleClass="btn btn-link" value="Logout"
+                                         action="#{userLogout.logoutAction()}"/>
+                    </h:form>
+
                 </header>
 
                 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">

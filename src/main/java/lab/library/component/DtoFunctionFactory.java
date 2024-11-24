@@ -2,6 +2,7 @@ package lab.library.component;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import lab.library.book.dto.function.*;
+import lab.library.user.dto.function.RequestToUserFunction;
 import lab.library.user.dto.function.UserToResponseFunction;
 import lab.library.user.dto.function.UsersToResponseFunction;
 
@@ -14,6 +15,10 @@ public class DtoFunctionFactory {
 
     public UserToResponseFunction userToResponse() {
         return new UserToResponseFunction();
+    }
+
+    public RequestToUserFunction requestToUser() {
+        return new RequestToUserFunction();
     }
 
     public BookToResponseFunction bookToResponse() {
