@@ -3,6 +3,7 @@ package lab.library.book.service;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.ws.rs.ForbiddenException;
@@ -16,6 +17,7 @@ import lab.library.user.entity.UserRoles;
 import lab.library.user.repository.api.UserRepository;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,7 +47,30 @@ public class BookService {
     }
 
     public Optional<Book> find(UUID id) {
-        return bookRepository.find(id);
+        Book book = bookRepository.find(id).orElseThrow();
+
+        if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
+            return Optional.of(book);
+        }
+
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(NotFoundException::new);
+
+        if (user.getId() == book.getUser().getId()) {
+            return Optional.of(book);
+        } else {
+            try {
+                String contextPath = FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .getRequestContextPath();
+                FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .redirect(contextPath + "/publisher/publisher_list.xhtml");
+            } catch (IOException e) {
+                throw new RuntimeException("Redirection failed", e);
+            }
+        }
+        return Optional.empty();
     }
 
     @RolesAllowed(UserRoles.USER)
@@ -66,7 +91,14 @@ public class BookService {
     }
 
     public List<Book> findAll(Publisher publisher) {
-        return bookRepository.findAllByPublisher(publisher);
+        if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
+            return bookRepository.findAll();
+        }
+
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(NotFoundException::new);
+
+        return bookRepository.findAllByPublisherAndUser(publisher, user);
     }
 
     @RolesAllowed(UserRoles.USER)

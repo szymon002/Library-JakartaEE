@@ -13,4 +13,6 @@ public interface BookRepository extends Repository<Book, UUID> {
     List<Book> findAllByUser(User user);
 
     List<Book> findAllByPublisher(Publisher publisher);
+
+    List<Book> findAllByPublisherAndUser(Publisher publisher, User user);
 }

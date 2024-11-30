@@ -11,15 +11,15 @@
 
     <ui:define name="content">
         <article>
-            <header><h2>Create book</h2></header>
+            <header><h2>#{messages.createBook}</h2></header>
             <h:form styleClass="container" onreset="onReset()" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn" value="Previous" immediate="true"
+                        <h:commandButton styleClass="btn" value="#{messages.previous}" immediate="true"
                                          action="#{bookCreate.goToPublisherAction()}"/>
                     </div>
                     <div class="col-2 p-2 text-center">
-                        <h:button styleClass="btn" value="Next" disabled="true"/>
+                        <h:button styleClass="btn" value="#{messages.next}" disabled="true"/>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@
                     <div class="col-4">
                         <div class="row mb-2">
                             <div class="col-6">
-                                Publisher
+                                #{messages.publisher}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{bookCreate.book.publisher.name}"/>
@@ -36,7 +36,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Title
+                                #{messages.title}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{bookCreate.book.title}"/>
@@ -45,7 +45,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Author
+                                #{messages.author}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{bookCreate.book.author}"/>
@@ -54,7 +54,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Date of publication
+                                #{messages.dateOfCreation}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{bookCreate.book.dateOfPublication}"/>
@@ -63,7 +63,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                State
+                                #{messages.state}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{bookCreate.book.state}"/>
@@ -75,11 +75,11 @@
 
                 <div class="row">
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-primary" value="Create"
+                        <h:commandButton styleClass="btn btn-primary" value="#{messages.create}"
                                          action="#{bookCreate.saveAction()}"/>
                     </div>
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-secondary" value="Cancel"
+                        <h:commandButton styleClass="btn btn-secondary" value="#{messages.cancel}"
                                          action="#{bookCreate.cancelAction()}"/>
                     </div>
                 </div>

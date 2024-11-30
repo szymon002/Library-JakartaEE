@@ -94,13 +94,13 @@ public class InitializedData {
 
             User user4 = User.builder()
                     .id(UUID.fromString("fb9de5f7-87e5-4281-9390-75ded8e3bcff"))
-                    .login("user4")
-                    .password("user4")
+                    .login("admin")
+                    .password("admin")
                     .firstName("Ewa")
                     .lastName("Zielińska")
                     .birthDate(LocalDate.of(2001, 7, 15))
                     .email("ewa.test@gmail.com")
-                    .roles(List.of(UserRoles.USER))
+                    .roles(List.of(UserRoles.USER, (UserRoles.ADMIN)))
                     .build();
 
             userService.create(user1);

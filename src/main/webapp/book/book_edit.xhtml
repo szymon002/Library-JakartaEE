@@ -12,13 +12,13 @@
 
     <ui:define name="content">
         <article>
-            <header><h2>Edit book</h2></header>
+            <header><h2>#{messages.editBook}</h2></header>
             <h:form styleClass="container" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-4 p-2">
                         <div class="form-floating">
                             <h:inputText id="title" value="#{bookEdit.book.title}" styleClass="form-control"/>
-                            <h:outputLabel for="title" value="Title:" styleClass="form-label"/>
+                            <h:outputLabel for="title" value="#{messages.bookTitle}:" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="col-4 p-2">
                         <div class="form-floating">
                             <h:inputText id="author" value="#{bookEdit.book.author}" styleClass="form-control"/>
-                            <h:outputLabel for="author" value="Author:" styleClass="form-label"/>
+                            <h:outputLabel for="author" value="#{messages.author}:" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="col-4 p-2">
                         <div class="form-floating">
                             <h:inputText id="state" value="#{bookEdit.book.state}" styleClass="form-control"/>
-                            <h:outputLabel for="state" value="State:" styleClass="form-label"/>
+                            <h:outputLabel for="state" value="#{messages.state}:" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>

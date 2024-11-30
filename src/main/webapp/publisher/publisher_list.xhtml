@@ -7,26 +7,27 @@
 
     <ui:define name="content">
         <article class="text--justified">
-            <header><h2>Publishers</h2></header>
+            <header><h2>#{messages.publishers}</h2></header>
 
             <h:dataTable value="#{publisherList.publishers.publishers}" var="publisher"
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
                 <h:column>
-                    <f:facet name="header">Name</f:facet>
+                    <f:facet name="header">#{messages.name}</f:facet>
                     <h:outputText value="#{publisher.name}"/>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">View</f:facet>
-                    <h:link outcome="/publisher/publisher_view.xhtml" value="View">
+                    <f:facet name="header">#{messages.view}</f:facet>
+                    <h:link outcome="/publisher/publisher_view.xhtml" value="#{messages.view}">
                         <f:param name="id" value="#{publisher.id}"/>
                     </h:link>
                 </h:column>
 
                 <h:column>
                     <h:form>
-                        <h:commandButton styleClass="btn" value="Delete"
-                                         action="#{publisherList.deleteAction(publisher)}"/>
+                        <h:commandButton styleClass="btn" value="#{messages.delete}"
+                                         action="#{publisherList.deleteAction(publisher)}"
+                                         rendered="#{facesContext.externalContext.isUserInRole('admin')}"/>
                     </h:form>
                 </h:column>
             </h:dataTable>

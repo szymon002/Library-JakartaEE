@@ -25,26 +25,26 @@
                 <header class="mb-4 mt-4">
                     <div class="d-flex align-items-center">
                         <h:graphicImage name="images/logo.jpg" style="height: 75px" class="me-3"/>
-                        <h1>Library</h1>
+                        <h1>#{messages.title}</h1>
                     </div>
                     <h:form styleClass="container d-flex  align-items-center justify-content-end"
                             rendered="#{facesContext.externalContext.userPrincipal != null}">
-                        Logged: <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
-                        <h:commandButton styleClass="btn btn-link" value="Logout"
+                        #{messages.logged}: <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
+                        <h:commandButton styleClass="btn btn-link" value="#{messages.logout}"
                                          action="#{userLogout.logoutAction()}"/>
                     </h:form>
-
+                    <h:graphicImage styleClass="flag" library="default" name="img/flag.svg"/>
                 </header>
 
                 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                     <div class="container-fluid">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <h:link styleClass="nav-link" outcome="/index.xhtml">Home</h:link>
+                                <h:link styleClass="nav-link" outcome="/index.xhtml">#{messages.home}</h:link>
                             </li>
                             <li class="nav-item">
                                 <h:link styleClass="nav-link"
-                                        outcome="/publisher/publisher_list.xhtml">Publishers</h:link>
+                                        outcome="/publisher/publisher_list.xhtml">#{messages.publishers}</h:link>
                             </li>
                         </ul>
                     </div>
@@ -56,7 +56,7 @@
 
                 <footer class="text-center text-lg-start bg-light text-muted p-2 mt-auto">
                     <div class="text-center">
-                        Created By Szymon Malecki
+                        #{messages.createdBy} Szymon Malecki
                     </div>
                 </footer>
             </div>

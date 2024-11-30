@@ -51,6 +51,12 @@ public class UserLogin {
         AuthenticationStatus status = securityContext.authenticate(request, extractResponseFromFacesContext(),
                 withParams().credential(credential));
         facesContext.responseComplete();
+        String contextPath = FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequestContextPath();
+        FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .redirect(contextPath + "/publisher/publisher_list.xhtml");
     }
 
     private HttpServletResponse extractResponseFromFacesContext() {
