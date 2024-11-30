@@ -3,9 +3,7 @@ package lab.library.book.controller.impl;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBException;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.TransactionalException;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
@@ -17,7 +15,6 @@ import lab.library.book.dto.PutBookRequest;
 import lab.library.book.service.BookService;
 import lab.library.component.DtoFunctionFactory;
 ;
-import lab.library.user.entity.User;
 import lab.library.user.entity.UserRoles;
 import lombok.extern.java.Log;
 

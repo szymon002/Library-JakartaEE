@@ -12,10 +12,12 @@ import lab.library.book.entity.Book;
 import lab.library.book.entity.Publisher;
 import lab.library.book.repository.api.BookRepository;
 import lab.library.book.repository.api.PublisherRepository;
+import lab.library.configuration.singleton.logger.LogBinding;
 import lab.library.user.entity.User;
 import lab.library.user.entity.UserRoles;
 import lab.library.user.repository.api.UserRepository;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -102,6 +104,7 @@ public class BookService {
     }
 
     @RolesAllowed(UserRoles.USER)
+    @LogBinding
     public void create(Book book) {
         if (bookRepository.find(book.getId()).isPresent()) {
             throw new IllegalArgumentException("Book already exists");
@@ -127,6 +130,7 @@ public class BookService {
     }
 
     @RolesAllowed(UserRoles.USER)
+    @LogBinding
     public void update(Book book) {
         if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
             bookRepository.update(book);
@@ -143,6 +147,7 @@ public class BookService {
     }
 
     @RolesAllowed(UserRoles.USER)
+    @LogBinding
     public void delete(UUID id) {
         Book book = bookRepository.find(id).orElseThrow();
         if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
