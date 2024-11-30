@@ -47,36 +47,40 @@
                 <div class="row mt-4">
                     <div class="col-12">
                         <h3>#{messages.booksPublished}</h3>
-                        <h:dataTable value="#{publisherView.books.books}" var="book"
-                                     styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
-                            <h:column>
-                                <f:facet name="header">#{messages.bookTitle}</f:facet>
-                                <h:outputText value="#{book.title}" styleClass="book-title"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">#{messages.author}</f:facet>
-                                <h:outputText value="#{book.author}" styleClass="book-author"/>
-                            </h:column>
+                        <h:form id="bookForm">
+                            <h:dataTable id="bookTable" value="#{publisherView.books.books}" var="book"
+                                         styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
+                                <h:column>
+                                    <f:facet name="header">#{messages.bookTitle}</f:facet>
+                                    <h:outputText value="#{book.title}" styleClass="book-title"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">#{messages.author}</f:facet>
+                                    <h:outputText value="#{book.author}" styleClass="book-author"/>
+                                </h:column>
 
-                            <h:column>
-                                <h:link outcome="/book/book_view.xhtml" value="#{messages.view}">
-                                    <f:param name="id" value="#{book.id}"/>
-                                </h:link>
-                            </h:column>
+                                <h:column>
+                                    <h:link outcome="/book/book_view.xhtml" value="#{messages.view}">
+                                        <f:param name="id" value="#{book.id}"/>
+                                    </h:link>
+                                </h:column>
 
-                            <h:column>
-                                <h:link outcome="/book/book_edit.xhtml" value="#{messages.edit}">
-                                    <f:param name="id" value="#{book.id}"/>
-                                </h:link>
-                            </h:column>
+                                <h:column>
+                                    <h:link outcome="/book/book_edit.xhtml" value="#{messages.edit}">
+                                        <f:param name="id" value="#{book.id}"/>
+                                    </h:link>
+                                </h:column>
 
-                            <h:column>
-                                <h:form>
-                                    <h:commandButton styleClass="btn" value="#{messages.delete}"
-                                                     action="#{publisherView.deleteBook(book.id)}"/>
-                                </h:form>
-                            </h:column>
-                        </h:dataTable>
+                                <h:column>
+                                    <h:form>
+                                        <h:commandButton styleClass="btn" value="#{messages.delete}"
+                                                         action="#{publisherView.deleteBook(book.id)}">
+                                            <f:ajax execute="@this" render=":bookForm:bookTable"/>
+                                        </h:commandButton>
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>
+                        </h:form>
                     </div>
                 </div>
             </div>

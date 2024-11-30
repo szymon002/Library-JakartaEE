@@ -92,7 +92,7 @@ public class BookService {
 
     public List<Book> findAll(Publisher publisher) {
         if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
-            return bookRepository.findAll();
+            return bookRepository.findAllByPublisher(publisher);
         }
 
         User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())

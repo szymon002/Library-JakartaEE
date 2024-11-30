@@ -8,29 +8,32 @@
     <ui:define name="content">
         <article class="text--justified">
             <header><h2>#{messages.publishers}</h2></header>
+            <h:form id="publisherForm">
+                <h:dataTable id="publisherTable" value="#{publisherList.publishers.publishers}" var="publisher"
+                             styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
+                    <h:column>
+                        <f:facet name="header">#{messages.name}</f:facet>
+                        <h:outputText value="#{publisher.name}"/>
+                    </h:column>
 
-            <h:dataTable value="#{publisherList.publishers.publishers}" var="publisher"
-                         styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
-                <h:column>
-                    <f:facet name="header">#{messages.name}</f:facet>
-                    <h:outputText value="#{publisher.name}"/>
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">#{messages.view}</f:facet>
+                        <h:link outcome="/publisher/publisher_view.xhtml" value="#{messages.view}">
+                            <f:param name="id" value="#{publisher.id}"/>
+                        </h:link>
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">#{messages.view}</f:facet>
-                    <h:link outcome="/publisher/publisher_view.xhtml" value="#{messages.view}">
-                        <f:param name="id" value="#{publisher.id}"/>
-                    </h:link>
-                </h:column>
-
-                <h:column>
-                    <h:form>
-                        <h:commandButton styleClass="btn" value="#{messages.delete}"
-                                         action="#{publisherList.deleteAction(publisher)}"
-                                         rendered="#{facesContext.externalContext.isUserInRole('admin')}"/>
-                    </h:form>
-                </h:column>
-            </h:dataTable>
+                    <h:column>
+                        <h:form>
+                            <h:commandButton styleClass="btn" value="#{messages.delete}"
+                                             action="#{publisherList.deleteAction(publisher)}"
+                                             rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                                <f:ajax execute="@this" render=":publisherForm:publisherTable"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
         </article>
     </ui:define>
 

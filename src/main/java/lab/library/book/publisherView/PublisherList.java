@@ -2,15 +2,19 @@ package lab.library.book.publisherView;
 
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.annotation.View;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lab.library.book.publisherModel.PublishersModel;
 import lab.library.book.service.PublisherService;
 import lab.library.component.ModelFunctionFactory;
 
-@RequestScoped
+import java.io.Serializable;
+
+@ViewScoped
 @Named
-public class PublisherList {
+public class PublisherList implements Serializable {
     private PublisherService publisherService;
 
     private PublishersModel publishers;
@@ -36,8 +40,8 @@ public class PublisherList {
         return publishers;
     }
 
-    public String deleteAction(PublishersModel.Publisher publisher) {
+    public void deleteAction(PublishersModel.Publisher publisher) {
         publisherService.delete(publisher.getId());
-        return "publisher_list?faces-redirect=true";
+        publishers = null;
     }
 }

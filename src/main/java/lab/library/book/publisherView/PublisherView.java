@@ -10,6 +10,7 @@ import lab.library.book.bookModel.BooksModel;
 import lab.library.book.entity.Book;
 import lab.library.book.entity.Publisher;
 import lab.library.book.publisherModel.PublisherModel;
+import lab.library.book.publisherModel.PublishersModel;
 import lab.library.book.service.BookService;
 import lab.library.book.service.PublisherService;
 import lab.library.component.ModelFunctionFactory;
@@ -68,8 +69,20 @@ public class PublisherView implements Serializable {
         }
     }
 
-    public String deleteBook(UUID bookId) {
+    public BooksModel getBooks() {
+        Optional<Publisher> publisher = service.find(id);
+        if (publisher.isPresent()) {
+            List<Book> books = bookService.findAll(publisher.get());
+            this.books = factory.booksToModel().apply(books);
+            this.publisher = factory.publisherToModel().apply(publisher.get());
+            return this.books;
+        } else {
+            return null;
+        }
+    }
+
+    public void deleteBook(UUID bookId) {
         bookService.delete(bookId);
-        return "publisher_view.xhtml?id=" + id.toString() + "&faces-redirect=true";
+        books = null;
     }
 }
