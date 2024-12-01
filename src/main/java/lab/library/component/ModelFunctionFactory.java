@@ -5,6 +5,7 @@ import lab.library.book.bookModel.function.*;
 import lab.library.book.publisherModel.function.PublisherToModelChooseFunction;
 import lab.library.book.publisherModel.function.PublisherToModelFunction;
 import lab.library.book.publisherModel.function.PublishersToModelFunction;
+import lab.library.user.model.function.UsersToModelFunction;
 
 @ApplicationScoped
 public class ModelFunctionFactory {
@@ -40,4 +41,9 @@ public class ModelFunctionFactory {
     public ModelToBookFunction createBook() {
         return new ModelToBookFunction();
     }
+
+    public UsersToModelFunction usersToModel() {
+        return new UsersToModelFunction();
+    }
+
 }

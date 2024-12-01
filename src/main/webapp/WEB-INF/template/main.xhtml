@@ -19,6 +19,7 @@
 
             <h:outputScript library="webjars" name="mdb-ui-kit/6.4.0/js/mdb.min.js"/>
             <h:outputScript library="mdb" name="js/main.js" target="body"/>
+            <h:outputScript library="push" name="js/message.js" target="head"/>
         </h:head>
         <h:body>
             <div class="container d-flex flex-column min-vh-100">
@@ -45,6 +46,10 @@
                             <li class="nav-item">
                                 <h:link styleClass="nav-link"
                                         outcome="/publisher/publisher_list.xhtml">#{messages.publishers}</h:link>
+                            </li>
+                            <li class="nav-item">
+                                <h:link styleClass="nav-link" outcome="/chat/chat.xhtml"
+                                        rendered="#{facesContext.externalContext.userPrincipal != null}">#{messages.chat}</h:link>
                             </li>
                         </ul>
                     </div>

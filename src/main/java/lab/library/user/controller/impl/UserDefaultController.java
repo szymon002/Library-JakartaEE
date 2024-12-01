@@ -2,14 +2,7 @@ package lab.library.user.controller.impl;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.EJB;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
-import jakarta.security.enterprise.AuthenticationStatus;
-import jakarta.security.enterprise.SecurityContext;
-import jakarta.security.enterprise.credential.Credential;
-import jakarta.security.enterprise.credential.Password;
-import jakarta.security.enterprise.credential.UsernamePasswordCredential;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import jakarta.ws.rs.BadRequestException;

@@ -52,6 +52,7 @@ public class UserService {
         return userRepository.findAllByBirthDate(birthDate);
     }
 
+    @PermitAll
     public List<User> findAll() {
         return userRepository.findAll();
     }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <h:head>
+        <h:outputScript library="push" name="js/message.js" target="head"/>
+    </h:head>
+
+    <ui:define name="content">
+        <article class="text--justified">
+            <header><h2>#{messages.messages}</h2></header>
+            <f:websocket channel="broadcastChannel" scope="application" onmessage="receive"/>
+            <f:websocket rendered="#{facesContext.externalContext.userPrincipal != null}" channel="userChannel"
+                         user="#{facesContext.externalContext.userPrincipal.name}" onmessage="receive"/>
+
+            <aside>
+                <div class="form-outline">
+                    <textarea class="form-control" rows="4" id="messageContainer" readonly="readonly"/>
+                    <label for="messageContainer" class="form-label">#{messages.messages}</label>
+                </div>
+            </aside>
+
+            <h:form id="chatForm">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="recipient" value="Recipient:"/>
+                    <h:selectOneMenu id="recipient" value="#{chat.recipient}">
+                        <f:selectItem itemValue="" itemLabel="All"/>
+                        <f:selectItems value="#{userList.users.users}" var="user" itemValue="#{user.login}" itemLabel="#{user.login}"/>
+                    </h:selectOneMenu>
+
+                    <h:outputLabel for="message" value="Message:"/>
+                    <h:inputText id="message" value="#{chat.message}" style="width: 100%;"/>
+
+                    <h:commandButton value="Send" action="#{chat.sendMessage}">
+                        <f:ajax execute="@form" render="chatForm"/>
+                    </h:commandButton>
+                </h:panelGrid>
+            </h:form>
+        </article>
+    </ui:define>
+
+</ui:composition>
