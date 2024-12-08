@@ -3,7 +3,11 @@ package lab.library.book.repository.persistence;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lab.library.book.entity.Book;
+import lab.library.book.entity.Book_;
 import lab.library.book.entity.Publisher;
 import lab.library.book.repository.api.BookRepository;
 import lab.library.user.entity.User;
@@ -23,24 +27,35 @@ public class BookPersistenceRepository implements BookRepository {
 
     @Override
     public List<Book> findAllByUser(User user) {
-        return em.createQuery("SELECT b FROM Book b WHERE b.user = :user", Book.class)
-                .setParameter("user", user)
-                .getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Book> query = cb.createQuery(Book.class);
+        Root<Book> root = query.from(Book.class);
+        query.select(root)
+                .where(cb.equal(root.get(Book_.user), user));
+        return em.createQuery(query).getResultList();
     }
 
     @Override
     public List<Book> findAllByPublisher(Publisher publisher) {
-        return em.createQuery("SELECT b FROM Book b WHERE b.publisher = :publisher", Book.class)
-                .setParameter("publisher", publisher)
-                .getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Book> query = cb.createQuery(Book.class);
+        Root<Book> root = query.from(Book.class);
+        query.select(root)
+                .where(cb.equal(root.get(Book_.publisher), publisher));
+        return em.createQuery(query).getResultList();
     }
 
     @Override
     public List<Book> findAllByPublisherAndUser(Publisher publisher, User user) {
-        return em.createQuery("SELECT b FROM Book b WHERE b.publisher = :publisher AND b.user = :user", Book.class)
-                .setParameter("publisher", publisher)
-                .setParameter("user", user)
-                .getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Book> query = cb.createQuery(Book.class);
+        Root<Book> root = query.from(Book.class);
+        query.select(root)
+                .where(cb.and(
+                        cb.equal(root.get(Book_.publisher), publisher),
+                        cb.equal(root.get(Book_.user), user)
+                ));
+        return em.createQuery(query).getResultList();
     }
 
     @Override
@@ -50,7 +65,11 @@ public class BookPersistenceRepository implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        return em.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Book> query = cb.createQuery(Book.class);
+        Root<Book> root = query.from(Book.class);
+        query.select(root);
+        return em.createQuery(query).getResultList();
     }
 
     @Override

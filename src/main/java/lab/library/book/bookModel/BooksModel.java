@@ -4,6 +4,7 @@ import lab.library.book.dto.GetBooksResponse;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +32,10 @@ public class BooksModel implements Serializable {
         private String author;
 
         private int version;
+
+        private LocalDateTime creationDateTime;
+
+        private LocalDateTime lastUpdateTime;
     }
 
     @Singular

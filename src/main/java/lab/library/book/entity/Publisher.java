@@ -28,6 +28,8 @@ public class Publisher implements Serializable {
 
     private int numOfWorkers;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.REMOVE)
     List<Book> books;
 }

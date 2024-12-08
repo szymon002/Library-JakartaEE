@@ -1,11 +1,14 @@
 package lab.library.book.repository.persistence;
 
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lab.library.book.entity.Publisher;
 import lab.library.book.repository.api.PublisherRepository;
+import lab.library.user.entity.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +30,11 @@ public class PublisherPersistenceRepository implements PublisherRepository {
 
     @Override
     public List<Publisher> findAll() {
-        return em.createQuery("SELECT p FROM Publisher p", Publisher.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Publisher> query = cb.createQuery(Publisher.class);
+        Root<Publisher> root = query.from(Publisher.class);
+        query.select(root);
+        return em.createQuery(query).getResultList();
     }
 
     @Override

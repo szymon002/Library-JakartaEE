@@ -16,6 +16,8 @@ public class BooksToModelFunction implements Function<List<Book>, BooksModel> {
                                 .title(book.getTitle())
                                 .author(book.getAuthor())
                                 .version(book.getVersion())
+                                .creationDateTime(book.getCreationDateTime())
+                                .lastUpdateTime(book.getLastUpdateTime())
                                 .build())
                         .toList()
                 ).build();

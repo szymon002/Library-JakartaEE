@@ -30,6 +30,8 @@ public class User implements Serializable {
 
     private LocalDate birthDate;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Book> books;
 

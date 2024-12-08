@@ -1,6 +1,7 @@
 package lab.library.book.bookView;
 
 import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -21,10 +22,10 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.UUID;
 
-@Named
 @ViewScoped
+@Named
 public class BookEdit implements Serializable {
-    private BookService service;
+    private final BookService service;
 
     private final ModelFunctionFactory factory;
 
@@ -39,15 +40,11 @@ public class BookEdit implements Serializable {
 
     @Inject
     public BookEdit(
-                    ModelFunctionFactory factory,
-                    FacesContext facesContext) {
+            BookService bookService, ModelFunctionFactory factory,
+            FacesContext facesContext) {
+        service = bookService;
         this.factory = factory;
         this.facesContext = facesContext;
-    }
-
-    @EJB
-    public void setService(BookService bookService) {
-        this.service = bookService;
     }
 
     public void init() throws IOException {
@@ -64,7 +61,7 @@ public class BookEdit implements Serializable {
             service.update(factory.updateBook().apply(service.find(id).orElseThrow(), book));
             String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
             return viewId + "?faces-redirect=true&includeViewParams=true";
-        } catch (TransactionalException ex) {
+        } catch (EJBException ex) {
             if (ex.getCause() instanceof OptimisticLockException) {
                 init();
                 facesContext.addMessage(null, new FacesMessage("Not valid version."));

@@ -71,6 +71,20 @@
                                 </h:column>
 
                                 <h:column>
+                                    <f:facet name="header">Created</f:facet>
+                                    <h:outputText value="#{book.creationDateTime}">
+                                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm"/>
+                                    </h:outputText>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Updated</f:facet>
+                                    <h:outputText value="#{book.lastUpdateTime}">
+                                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm"/>
+                                    </h:outputText>
+                                </h:column>
+
+                                <h:column>
                                     <h:link outcome="/book/book_edit.xhtml" value="#{messages.edit}">
                                         <f:param name="id" value="#{book.id}"/>
                                     </h:link>
