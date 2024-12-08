@@ -40,4 +40,7 @@ public class Book implements Serializable {
         NEW,
         USED
     }
+
+    @Version
+    private int version;
 }

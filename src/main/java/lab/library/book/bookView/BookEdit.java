@@ -1,11 +1,14 @@
 package lab.library.book.bookView;
 
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.TransactionalException;
 import lab.library.book.bookModel.BookEditModel;
 import lab.library.book.entity.Book;
 import lab.library.book.service.BookService;
@@ -25,6 +28,8 @@ public class BookEdit implements Serializable {
 
     private final ModelFunctionFactory factory;
 
+    private final FacesContext facesContext;
+
     @Setter
     @Getter
     private UUID id;
@@ -34,9 +39,10 @@ public class BookEdit implements Serializable {
 
     @Inject
     public BookEdit(
-                    ModelFunctionFactory factory
-    ) {
+                    ModelFunctionFactory factory,
+                    FacesContext facesContext) {
         this.factory = factory;
+        this.facesContext = facesContext;
     }
 
     @EJB
@@ -53,9 +59,18 @@ public class BookEdit implements Serializable {
         }
     }
 
-    public String saveAction() {
-        service.update(factory.updateBook().apply(service.find(id).orElseThrow(), book));
-        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        return viewId + "?faces-redirect=true&includeViewParams=true";
+    public String saveAction() throws IOException {
+        try {
+            service.update(factory.updateBook().apply(service.find(id).orElseThrow(), book));
+            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+            return viewId + "?faces-redirect=true&includeViewParams=true";
+        } catch (TransactionalException ex) {
+            if (ex.getCause() instanceof OptimisticLockException) {
+                init();
+                facesContext.addMessage(null, new FacesMessage("Not valid version."));
+            }
+            return null;
+        }
+
     }
 }

@@ -38,4 +38,5 @@ public class GetBookResponse {
 
     private Publisher publisher;
 
+    private int version;
 }

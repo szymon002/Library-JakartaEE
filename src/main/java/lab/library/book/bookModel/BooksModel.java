@@ -29,6 +29,8 @@ public class BooksModel implements Serializable {
         private String title;
 
         private String author;
+
+        private int version;
     }
 
     @Singular

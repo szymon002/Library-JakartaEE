@@ -20,4 +20,6 @@ public class PutBookRequest {
     private Book.State state;
 
     private UUID publisher;
+
+    private int version;
 }

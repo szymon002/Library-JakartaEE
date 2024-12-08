@@ -17,6 +17,7 @@ public class UpdateBookWithModelFunction implements BiFunction<Book, BookEditMod
                 .dateOfPublication(book.getDateOfPublication())
                 .publisher(book.getPublisher())
                 .user(book.getUser())
+                .version(request.getVersion())
                 .build();
     }
 }

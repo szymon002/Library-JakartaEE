@@ -19,6 +19,7 @@ public class BookToResponseFunction implements Function<Book, GetBookResponse> {
                         .id(book.getPublisher().getId())
                         .name(book.getPublisher().getName())
                         .build())
+                .version(book.getVersion())
                 .build();
     }
 }

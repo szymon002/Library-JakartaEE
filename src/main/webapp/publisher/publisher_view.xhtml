@@ -66,6 +66,11 @@
                                 </h:column>
 
                                 <h:column>
+                                    <f:facet name="header">Version</f:facet>
+                                    <h:outputText value="#{book.version}"/>
+                                </h:column>
+
+                                <h:column>
                                     <h:link outcome="/book/book_edit.xhtml" value="#{messages.edit}">
                                         <f:param name="id" value="#{book.id}"/>
                                     </h:link>

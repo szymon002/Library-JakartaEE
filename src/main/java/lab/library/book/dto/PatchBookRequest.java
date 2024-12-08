@@ -14,4 +14,6 @@ public class PatchBookRequest {
     private String author;
 
     private Book.State state;
+
+    private int version;
 }

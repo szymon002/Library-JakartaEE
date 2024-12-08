@@ -13,6 +13,7 @@ public class BookToEditModelFunction implements Function<Book, BookEditModel>, S
                 .title(book.getTitle())
                 .author(book.getAuthor())
                 .state(book.getState())
+                .version(book.getVersion())
                 .build();
     }
 }

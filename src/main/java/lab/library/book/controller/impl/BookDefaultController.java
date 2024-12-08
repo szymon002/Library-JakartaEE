@@ -4,9 +4,11 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBException;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.BadRequestException;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.Path;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.transaction.TransactionalException;
+import jakarta.ws.rs.*;
+import lab.library.authorization.exception.NoPrincipalException;
+import lab.library.authorization.exception.NoRolesException;
 import lab.library.book.controller.api.BookController;
 import lab.library.book.dto.GetBookResponse;
 import lab.library.book.dto.GetBooksResponse;
@@ -71,24 +73,38 @@ public class BookDefaultController implements BookController {
         try {
             request.setPublisher(publisherId);
             service.create(factory.requestToBook().apply(bookId, request));
-        } catch (EJBException ex) {
+        } catch (TransactionalException ex) {
             if (ex.getCause() instanceof IllegalArgumentException) {
                 log.log(Level.WARNING, ex.getMessage(), ex);
                 throw new BadRequestException(ex);
             }
             throw ex;
+        } catch (NoRolesException ex) {
+            throw new ForbiddenException();
+        } catch (NoPrincipalException ex) {
+            throw new NotAuthorizedException("");
         }
-
     }
 
     @Override
     public void patchBook(UUID id, PatchBookRequest request) {
-        service.find(id).ifPresentOrElse(
-                entity -> service.update(factory.updateBook().apply(entity, request)),
-                () -> {
-                    throw new NotFoundException();
-                }
-        );
+        try {
+            service.find(id).ifPresentOrElse(
+                    entity -> service.update(factory.updateBook().apply(entity, request)),
+                    () -> {
+                        throw new NotFoundException();
+                    }
+            );
+        } catch (NoRolesException ex) {
+            throw new ForbiddenException();
+        } catch (NoPrincipalException ex) {
+            throw new NotAuthorizedException("");
+        } catch (TransactionalException ex) {
+            if (ex.getCause() instanceof OptimisticLockException) {
+                throw new BadRequestException(ex.getCause());
+            }
+        }
+
     }
 
     @Override
